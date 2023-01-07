@@ -37,6 +37,7 @@ namespace ConsoleApp1
 
         static int CalculateRPN(string s, Stack<int> stack)
             {
+           
 
                 // Variable temporaire pour stocker les chiffres lors de la conversion en nombre
                 string temp = "";
@@ -57,31 +58,36 @@ namespace ConsoleApp1
                             stack.Push(int.Parse(temp));
                             temp = "";
                         }
-                        // Si c'est un opérateur, on récupère les deux derniers nombres de la pile et on effectue l'opération
-                        if (c == '+')
-                        {
-                            int n1 = stack.Pop();
-                            int n2 = stack.Pop();
+                    // Si c'est un opérateur, on récupère les deux derniers nombres de la pile et on effectue l'opération
+
+                    switch (c)
+                    {
+
+                        
+                        case '+':
+                             int n1 = stack.Pop();
+                             int n2 = stack.Pop();
                             stack.Push(n1 + n2);
-                        }
-                        else if (c == '-')
-                        {
-                            int n1 = stack.Pop();
-                            int n2 = stack.Pop();
-                            stack.Push(n2 - n1);
-                        }
-                        else if (c == '*')
-                        {
-                            int n1 = stack.Pop();
-                            int n2 = stack.Pop();
-                            stack.Push(n1 * n2);
-                        }
-                        else if (c == '/')
-                        {
-                            int n1 = stack.Pop();
-                            int n2 = stack.Pop();
-                            stack.Push(n2 / n1);
-                        }
+                            break;
+                        case '-':
+                            int n3 = stack.Pop();
+                            int n4 = stack.Pop();
+                            stack.Push(n3 - n4);
+
+                            break;
+                        case '*':
+                            int n5 = stack.Pop();
+                            int n6 = stack.Pop();
+                            stack.Push(n5 * n6);
+                            break;
+                        case '/':
+                            int n7 = stack.Pop();
+                            int n8 = stack.Pop();
+                            stack.Push(n7 / n8);
+                            break;
+
+                    }
+                   
                     }
                 }
                 // Si la chaîne temporaire n'est pas vide, conversion en nombre et ajout à la pile
