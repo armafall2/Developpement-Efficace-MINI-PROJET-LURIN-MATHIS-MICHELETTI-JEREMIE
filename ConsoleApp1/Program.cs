@@ -15,7 +15,7 @@ namespace ConsoleApp1
             {
                 s = Console.ReadLine();
             } while (s == " ");
- 
+
 
             return s;
 
@@ -48,16 +48,17 @@ namespace ConsoleApp1
 
         static int? CalculateRPN(string chaineACalculer, Stack<int> pileDeStockage)
         {
+            int? result = null;
 
             if (chaineACalculer == null)
             {
                 Console.WriteLine("Erreur : La chaîne est nulle");
-                return null;
+                result = null;
             }
             else if (pileDeStockage == null)
             {
                 Console.WriteLine("Erreur : Pas de Pile de Stockage");
-                return null;
+                result = null;
             }
             else if ((chaineACalculer != null) && (pileDeStockage != null))
             {
@@ -108,7 +109,6 @@ namespace ConsoleApp1
                                 break;
 
                         }
-
                     }
                 }
                 // Si la chaîne temporaire n'est pas vide, conversion en nombre et ajout à la pile
@@ -117,39 +117,31 @@ namespace ConsoleApp1
                     pileDeStockage.Push(int.Parse(variableTemporaireStockageChiffreConverti));
                 }
 
-                // Si la pile ne contient qu'un seul élément, c'est le résultat du calcul
-                if (pileDeStockage.Count == 1)
-                {
-                    return pileDeStockage.Peek();
-                }
-                // Si la pile contient plusieurs éléments, cela signifie que la chaîne de caractères ne respecte pas la notation RPN
-                else
-                {
-                    // On affiche un message d'erreur et on vide la pile
-                    if (pileDeStockage.Count > 1)
-                    {
-                        Console.WriteLine("Erreur : chaîne de caractères non valide pour une notation RPN");
-                        pileDeStockage.Clear();
-                        return null;
-                    }
-                    // Si la pile ne contient qu'un élément, c'est le résultat du calcul RPN
-                    else if (pileDeStockage.Count == 1)
-                    {
-                        return pileDeStockage.Pop();
-                    }
-                    // Si la pile est vide, il n'y a pas eu de calcul à effectuer
-                    else
-                    {
-                        return 0;
-                    }
-                    
-                }
+                int nombreDelementDansLaPile = pileDeStockage.Count;
                 
+
+                switch (nombreDelementDansLaPile)
+                {
+                    case 0:
+                        result = 0;
+                        break;
+
+                    case 1:
+                        result = pileDeStockage.Peek();
+                        break;
+
+                    default:
+                        if (nombreDelementDansLaPile > 1)
+                        {
+                            Console.WriteLine("Erreur : chaîne de caractères non valide pour une notation RPN");
+                            pileDeStockage.Clear();
+                            result = null;
+                        }
+                        break;
+                }
             }
-            return pileDeStockage.Peek();
+            return result;
         }
-
-
 
         static void Main(string[] args)
         {
