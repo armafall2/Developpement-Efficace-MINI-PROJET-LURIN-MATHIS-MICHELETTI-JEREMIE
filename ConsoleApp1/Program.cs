@@ -20,8 +20,9 @@ namespace ConsoleApp1
                 compteurDeCaractere = saisiDuCalcul.Length;
                 compteurDespace = 0;
 
-                foreach (char c in saisiDuCalcul)
+                for (int i = 0; i < saisiDuCalcul.Length; i++)
                 {
+                    char c = saisiDuCalcul[i];
                     if (c == ' ')
                     {
                         compteurDespace++;
@@ -34,9 +35,7 @@ namespace ConsoleApp1
         }
 
         static string Formatage(ref string chaineAFormater)
-        {
-            string result = "";
-
+        { 
             if (chaineAFormater == null)
             {
                 Console.WriteLine("Erreur : Pas de chaîne a formater");
@@ -65,24 +64,17 @@ namespace ConsoleApp1
         {
             int? result = null;
 
-            if (chaineACalculer == null)
-            {
-                Console.WriteLine("Erreur : La chaîne est nulle");
-                result = null;
-            }
-            else if (pileDeStockage == null)
-            {
-                Console.WriteLine("Erreur : Pas de Pile de Stockage");
-                result = null;
-            }
-            else if ((chaineACalculer != null) && (pileDeStockage != null))
+            if ((chaineACalculer != null) && (pileDeStockage != null))
             {
 
                 // Variable temporaire pour stocker les chiffres lors de la conversion en nombre
                 string variableTemporaireStockageChiffreConverti = "";
                 // Parcours de la chaîne de caractères
-                foreach (char c in chaineACalculer)
+
+                for (int i = 0; i < chaineACalculer.Length; i++)
                 {
+                    char c = chaineACalculer[i];
+
                     // Si c'est un chiffre, ajout du chiffre à la chaîne temporaire
                     if (char.IsDigit(c))
                     {
@@ -156,9 +148,21 @@ namespace ConsoleApp1
                         break;
                 }
             }
+            else
+            {
+                if (chaineACalculer == null)
+                {
+                    Console.WriteLine("Erreur : La chaîne est nulle"); 
+                    result = null;
+                }
+                if (pileDeStockage == null)
+                {
+                    Console.WriteLine("Erreur : Pas de Pile de Stockage");
+                    result = null;
+                }
+            }
             return result;
         }
-
         static void Main()
         {
            const string titre = "Calcul RPI : ";
