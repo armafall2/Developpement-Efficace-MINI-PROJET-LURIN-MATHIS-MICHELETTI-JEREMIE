@@ -9,34 +9,34 @@ namespace ConsoleApp1
         static string SaisieString(string titre)
         {
             Console.WriteLine(titre);
-            string input;
-            int characterCount;
-            int spaceCount;
+            string saisiDuCalcul;
+            int compteurDeCaractere;
+            int compteurDespace;
             do
             {
                 Console.WriteLine("Veuillez saisir une chaîne de caractères avec les espaces :");
-                input = Console.ReadLine();
+                saisiDuCalcul = Console.ReadLine();
 
-                characterCount = input.Length;
-                spaceCount = 0;
+                compteurDeCaractere = saisiDuCalcul.Length;
+                compteurDespace = 0;
 
-                foreach (char c in input)
+                foreach (char c in saisiDuCalcul)
                 {
                     if (c == ' ')
                     {
-                        spaceCount++;
+                        compteurDespace++;
                     }
                 }
             }
-            while (spaceCount != (int)Math.Ceiling((double)characterCount / 2) - 1);
-
-
-            return input;
+            while (compteurDespace != (int)Math.Ceiling((double)compteurDeCaractere / 2) - 1);
+            return saisiDuCalcul;
 
         }
 
-        static void Formatage(ref string chaineAFormater)
+        static string Formatage(ref string chaineAFormater)
         {
+            string result = "";
+
             if (chaineAFormater == null)
             {
                 Console.WriteLine("Erreur : Pas de chaîne a formater");
@@ -47,7 +47,7 @@ namespace ConsoleApp1
                 string[] elements = chaineAFormater.Split(' ');
 
                 // Vérifier si le deuxième élément est un opérateur
-                if ((elements.Length > 1) && (elements[1] == "+") || (elements[1] == "-") || (elements[1] == "*") || (elements[1] == "/"))
+                if (((elements.Length > 1) && (elements[1] == "+")) || (elements[1] == "-") || (elements[1] == "*") || (elements[1] == "/"))
                 {
                     // Intervertir la position de l'opérateur et de l'opérande suivant
                     string temp = elements[1];
@@ -58,6 +58,7 @@ namespace ConsoleApp1
                 // Reconstruire la chaîne de caractères à partir des éléments du tableau
                 chaineAFormater = String.Join(" ", elements);
             }
+            return chaineAFormater;
         }
 
         static int? CalculateRPN(string chaineACalculer, Stack<int> pileDeStockage)
@@ -138,6 +139,7 @@ namespace ConsoleApp1
                 {
                     case 0:
                         result = 0;
+                        Console.WriteLine("Erreur : aucun opérande valide dans la chaîne de caractères");
                         break;
 
                     case 1:
@@ -157,7 +159,7 @@ namespace ConsoleApp1
             return result;
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
            const string titre = "Calcul RPI : ";
 
@@ -166,11 +168,12 @@ namespace ConsoleApp1
 
             string calculRPI = SaisieString(titre);
 
-            Formatage(ref calculRPI);
 
-            Console.WriteLine(calculRPI);
+            Console.WriteLine(Formatage(ref calculRPI));
 
-           int? result =  CalculateRPN(calculRPI, pileDeStockage);
+           
+
+          int? result =  CalculateRPN(calculRPI, pileDeStockage);
 
             if (result != null)
             {
