@@ -9,15 +9,29 @@ namespace ConsoleApp1
         static string SaisieString(string titre)
         {
             Console.WriteLine(titre);
-            string s;
-
+            string input;
+            int characterCount;
+            int spaceCount;
             do
             {
-                s = Console.ReadLine();
-            } while (s == " ");
+                Console.WriteLine("Veuillez saisir une chaîne de caractères avec les espaces :");
+                input = Console.ReadLine();
+
+                characterCount = input.Length;
+                spaceCount = 0;
+
+                foreach (char c in input)
+                {
+                    if (c == ' ')
+                    {
+                        spaceCount++;
+                    }
+                }
+            }
+            while (spaceCount != (int)Math.Ceiling((double)characterCount / 2) - 1);
 
 
-            return s;
+            return input;
 
         }
 
@@ -25,7 +39,7 @@ namespace ConsoleApp1
         {
             if (chaineAFormater == null)
             {
-                throw new ArgumentNullException("chaineAFormater");
+                Console.WriteLine("Erreur : Pas de chaîne a formater");
             }
             else
             {
