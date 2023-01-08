@@ -60,108 +60,109 @@ namespace ConsoleApp1
             return chaineAFormater;
         }
 
+        static void SwitchSurSymbole(char operateur, Stack<int> pileDeStockage)
+        {
+
+            int n1, n2;
+
+            switch (operateur)
+            {
+                case '+':
+                    n1 = pileDeStockage.Pop();
+                    n2 = pileDeStockage.Pop();
+                    pileDeStockage.Push(n1 + n2);
+                    break;
+                case '-':
+                    n1 = pileDeStockage.Pop();
+                    n2 = pileDeStockage.Pop();
+                    pileDeStockage.Push(n1 - n2);
+                    break;
+                case '*':
+                    n1 = pileDeStockage.Pop();
+                    n2 = pileDeStockage.Pop();
+                    pileDeStockage.Push(n1 * n2);
+                    break;
+                case '/':
+                    n1 = pileDeStockage.Pop();
+                    n2 = pileDeStockage.Pop();
+                    pileDeStockage.Push(n1 / n2);
+                    break;
+
+
+            }
+        }
+
         static int? CalculateRPN(string chaineACalculer, Stack<int> pileDeStockage)
         {
             int? result = null;
-
-            if ((chaineACalculer != null) && (pileDeStockage != null))
+            if (string.IsNullOrEmpty(chaineACalculer) || pileDeStockage == null)
             {
-
-                // Variable temporaire pour stocker les chiffres lors de la conversion en nombre
-                string variableTemporaireStockageChiffreConverti = "";
-                // Parcours de la chaîne de caractères
-
-                for (int i = 0; i < chaineACalculer.Length; i++)
-                {
-                    char c = chaineACalculer[i];
-
-                    // Si c'est un chiffre, ajout du chiffre à la chaîne temporaire
-                    if (char.IsDigit(c))
-                    {
-                        variableTemporaireStockageChiffreConverti += c;
-                    }
-                    // Si c'est un opérateur ou un espace, on traite la chaîne temporaire comme un nombre s'il y en a un, et on traite l'opérateur ou l'espace
-                    else
-                    {
-                        // Si la chaîne temporaire n'est pas vide, conversion en nombre et ajout à la pile
-                        if (variableTemporaireStockageChiffreConverti != "")
-                        {
-                            pileDeStockage.Push(int.Parse(variableTemporaireStockageChiffreConverti));
-                            variableTemporaireStockageChiffreConverti = "";
-                        }
-                        // Si c'est un opérateur, on récupère les deux derniers nombres de la pile et on effectue l'opération
-
-                        switch (c)
-                        {
-                            case '+':
-                                int n1 = pileDeStockage.Pop();
-                                int n2 = pileDeStockage.Pop();
-                                pileDeStockage.Push(n1 + n2);
-                                break;
-                            case '-':
-                                int n3 = pileDeStockage.Pop();
-                                int n4 = pileDeStockage.Pop();
-                                pileDeStockage.Push(n3 - n4);
-
-                                break;
-                            case '*':
-                                int n5 = pileDeStockage.Pop();
-                                int n6 = pileDeStockage.Pop();
-                                pileDeStockage.Push(n5 * n6);
-                                break;
-                            case '/':
-                                int n7 = pileDeStockage.Pop();
-                                int n8 = pileDeStockage.Pop();
-                                pileDeStockage.Push(n7 / n8);
-                                break;
-
-                        }
-                    }
-                }
-                // Si la chaîne temporaire n'est pas vide, conversion en nombre et ajout à la pile
-                if (variableTemporaireStockageChiffreConverti != "")
-                {
-                    pileDeStockage.Push(int.Parse(variableTemporaireStockageChiffreConverti));
-                }
-
-                int nombreDelementDansLaPile = pileDeStockage.Count;
-                
-
-                switch (nombreDelementDansLaPile)
-                {
-                    case 0:
-                        result = 0;
-                        Console.WriteLine("Erreur : aucun opérande valide dans la chaîne de caractères");
-                        break;
-
-                    case 1:
-                        result = pileDeStockage.Peek();
-                        break;
-
-                    default:
-                        if (nombreDelementDansLaPile > 1)
-                        {
-                            Console.WriteLine("Erreur : chaîne de caractères non valide pour une notation RPN");
-                            pileDeStockage.Clear();
-                            result = null;
-                        }
-                        break;
-                }
+                Console.WriteLine("Erreur : La chaîne ou la pile de stockage est nulle");
+                return null;
             }
             else
             {
-                if (chaineACalculer == null)
+                if ((chaineACalculer != null) && (pileDeStockage != null))
                 {
-                    Console.WriteLine("Erreur : La chaîne est nulle"); 
-                    result = null;
+                    // Variable temporaire pour stocker les chiffres lors de la conversion en nombre
+                    string variableTemporaireStockageChiffreConverti = "";
+                    // Parcours de la chaîne de caractères
+                    for (int i = 0; i < chaineACalculer.Length; i++)
+                    {
+                        char c = chaineACalculer[i];
+
+                        // Si c'est un chiffre, ajout du chiffre à la chaîne temporaire
+                        if (char.IsDigit(c))
+                        {
+                            variableTemporaireStockageChiffreConverti += c;
+                        }
+                        // Si c'est un opérateur ou un espace, on traite la chaîne temporaire comme un nombre s'il y en a un, et on traite l'opérateur ou l'espace
+                        else
+                        {
+                            // Si la chaîne temporaire n'est pas vide, conversion en nombre et ajout à la pile
+                            if (variableTemporaireStockageChiffreConverti != "")
+                            {
+                                pileDeStockage.Push(int.Parse(variableTemporaireStockageChiffreConverti));
+                                variableTemporaireStockageChiffreConverti = "";
+                            }
+                            // Si c'est un opérateur, on récupère les deux derniers nombres de la pile et on effectue l'opération
+
+                            SwitchSurSymbole(c, pileDeStockage);
+                        }
+                    }
+                    // Si la chaîne temporaire n'est pas vide, conversion en nombre et ajout à la pile
+                    if (variableTemporaireStockageChiffreConverti != "")
+                    {
+                        pileDeStockage.Push(int.Parse(variableTemporaireStockageChiffreConverti));
+                    }
+
+                    int nombreDelementDansLaPile = pileDeStockage.Count;
+
+
+                    switch(nombreDelementDansLaPile)
+                    {
+                        case 0:
+                            result = 0;
+                            Console.WriteLine("Erreur : aucun opérande valide dans la chaîne de caractères");
+                            break;
+
+                        case 1:
+                            result = pileDeStockage.Peek();
+                            break;
+
+                        default:
+                            if (nombreDelementDansLaPile > 1)
+                            {
+                                Console.WriteLine("Erreur : chaîne de caractères non valide pour une notation RPN");
+                                pileDeStockage.Clear();
+                                result = null;
+                            }
+                            break;
+                    }
                 }
-                if (pileDeStockage == null)
-                {
-                    Console.WriteLine("Erreur : Pas de Pile de Stockage");
-                    result = null;
-                }
+                
+                return result;
             }
-            return result;
         }
         static void Main()
         {
